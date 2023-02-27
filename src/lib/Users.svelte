@@ -3,8 +3,17 @@
   import NewUser from "./NewUser.svelte";
   import User from "./User.svelte";
   import { users, addNewUser, remove } from "../stores/store";
+  import { tweened } from "svelte/motion";
+  import { cubicIn, quintOut } from "svelte/easing";
+  import { onMount } from "svelte";
+  import { flip } from "svelte/animate";
 
   $: filteredUsers = $users;
+
+  const progress = tweened(0, {
+    duration: 400,
+    easing: cubicIn,
+  });
 
   const filter = ({ detail }) => {
     if (detail === "null") {
@@ -16,6 +25,10 @@
 
     filteredUsers = $users.filter((user) => user.active === detail);
   };
+
+  onMount(() => {
+    progress.set($users.length);
+  });
 </script>
 
 <div>
@@ -26,8 +39,12 @@
     <NewUser on:newUser={addNewUser} />
   </div>
 
+  <progress max="15" min="0" value={$progress} class="w-full mx-4" />
+
   {#each filteredUsers as user, i (user.id)}
-    <User on:remove={remove} {user} {i} />
+    <div animate:flip={{ duration: 1000, delay: 250, easing: quintOut }}>
+      <User on:remove={remove} {user} {i} />
+    </div>
   {:else}
     <p>No user found!</p>
   {/each}

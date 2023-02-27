@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
+  import { fade } from "svelte/transition";
 
   export let user;
   export let i;
@@ -11,6 +12,7 @@
 </script>
 
 <div
+  transition:fade={{ duration: 500 }}
   class="flex m-5 bg-white border p-2 roudned-lg shadow-md hover:shadow-lg cursos-pointer items-center relative"
 >
   <button
