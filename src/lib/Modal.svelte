@@ -5,6 +5,10 @@
   function close() {
     dispatch("close");
   }
+
+  function submit(e) {
+    dispatch("submit");
+  }
 </script>
 
 <div
@@ -18,17 +22,21 @@
     <div
       class="flex items-center sm:items-center justify-center min-h-full p-4 text-center sm:p-0"
     >
-      <div
+      <form
+        on:submit|preventDefault={submit}
         class="relative bg-white rounded-lg px-4 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-sm sm:w-full sm:p-6"
       >
+        <slot />
         <div class="mt-5 sm:mt-6">
           <button
             on:click={close}
             class="px-2 py-1 bg-white border rounded hover:bg-gray-200"
-            >close</button
+            >Close</button
           >
+
+          <slot name="right-button" />
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </div>
