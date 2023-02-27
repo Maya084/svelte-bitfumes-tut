@@ -4,6 +4,7 @@
 
   const dispatch = createEventDispatcher();
   let showModal = false;
+  $: disableSubmitBtn = !newUser.name || !newUser.email;
 
   let newUser = {
     name: "",
@@ -19,6 +20,7 @@
 
 <div class="mt-4">
   <button
+    type="button"
     on:click={() => (showModal = true)}
     class="px-4 py-1 bg-blue-500 text-white rounded cursor-pointer"
     >New User</button
@@ -73,7 +75,9 @@
     <button
       slot="right-button"
       type="submit"
-      class="px-2 py-1 bg-blue-500 text-white rounded">Create</button
+      disabled={disableSubmitBtn}
+      class="px-2 py-1 bg-blue-500 text-white rounded disabled:opacity-75"
+      >Create</button
     >
   </Modal>
 {/if}
